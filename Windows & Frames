@@ -1,0 +1,283 @@
+1. write selenium script in java for following:
+<dependencies>
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>4.1.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-chrome-driver</artifactId>
+        <version>4.1.0</version>
+    </dependency>
+</dependencies>
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class IFrameExample {
+    public static void main(String[] args) {
+        // Set the path to your ChromeDriver
+        System.setProperty("webdriver.chrome.driver", "path_to_your_chromedriver"); // e.g., "C:/path_to_chromedriver/chromedriver.exe"
+
+        // Create a new instance of the Chrome driver
+        WebDriver driver = new ChromeDriver();
+
+        try {
+            // 2. Navigate to the URL
+            driver.get("https://the-internet.herokuapp.com/iframe");
+
+            // 3. Switch to iframe
+            WebElement iframe = driver.findElement(By.id("mce_0_ifr"));
+            driver.switchTo().frame(iframe);
+
+            // 4. Locate the <p> tag inside the iframe and write the text "Hello People"
+            WebElement pTag = driver.findElement(By.id("tinymce"));
+            pTag.clear(); // Clear existing text if any
+            pTag.sendKeys("Hello People");
+
+            // Wait for a while to observe the result
+            Thread.sleep(3000);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 5. Close the browser instance
+            driver.quit();
+        }
+    }
+}
+Explanation of the Steps
+Set up ChromeDriver: The path to your ChromeDriver executable is set using System.setProperty.
+Create WebDriver Instance: A new instance of ChromeDriver is created.
+Navigate to URL: The driver navigates to the provided URL.
+Switch to IFrame: The iframe is located using its ID and then the driver switches to the iframe context.
+Locate and Write to p Tag: The p tag inside the iframe is located using its ID (tinymce), its content is cleared, and new text ("Hello People") is entered.
+Close Browser: The browser instance is closed after the operation.
+
+2. Write selenium script for following:
+<dependencies>
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>4.1.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-chrome-driver</artifactId>
+        <version>4.1.0</version>
+    </dependency>
+</dependencies>
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.util.Set;
+
+public class NewWindowExample {
+    public static void main(String[] args) {
+        // Set the path to your ChromeDriver
+        System.setProperty("webdriver.chrome.driver", "path_to_your_chromedriver"); // e.g., "C:/path_to_chromedriver/chromedriver.exe"
+
+        // Create a new instance of the Chrome driver
+        WebDriver driver = new ChromeDriver();
+
+        try {
+            // 2. Navigate to the URL
+            driver.get("https://the-internet.herokuapp.com/windows");
+
+            // 3. Click the "Click Here" link
+            WebElement clickHereLink = driver.findElement(By.linkText("Click Here"));
+            clickHereLink.click();
+
+            // 4. Switch to the newly opened window
+            String originalWindow = driver.getWindowHandle();
+            Set<String> allWindows = driver.getWindowHandles();
+
+            for (String windowHandle : allWindows) {
+                if (!windowHandle.equals(originalWindow)) {
+                    driver.switchTo().window(windowHandle);
+                    break;
+                }
+            }
+
+            // 5. Verify the text "New Window" is present on the new page
+            WebElement newWindowText = driver.findElement(By.tagName("h3"));
+            if (newWindowText.getText().equals("New Window")) {
+                System.out.println("New Window text is present.");
+            } else {
+                System.out.println("New Window text is NOT present.");
+            }
+
+            // 6. Close the new window
+            driver.close();
+
+            // 7. Verify the original window is active
+            driver.switchTo().window(originalWindow);
+            if (driver.getTitle().equals("The Internet")) {
+                System.out.println("Original window is active.");
+            } else {
+                System.out.println("Original window is NOT active.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 8. Close the browser instance
+            driver.quit();
+        }
+    }
+}
+Explanation of the Steps
+Set up ChromeDriver: The path to your ChromeDriver executable is set using System.setProperty.
+Create WebDriver Instance: A new instance of ChromeDriver is created.
+Navigate to URL: The driver navigates to the provided URL.
+Click the Link: The "Click Here" link is located using its link text and clicked.
+Switch to New Window: The script switches to the newly opened window by iterating through the window handles and switching to the one that is not the original.
+Verify Text: The text "New Window" is verified by locating the h3 tag and checking its text content.
+Close New Window: The new window is closed.
+Switch Back to Original Window: The script switches back to the original window and verifies it is active by checking the title.
+Close Browser: The browser instance is closed.
+
+3. Write selenium script for following
+<dependencies>
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>4.1.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-chrome-driver</artifactId>
+        <version>4.1.0</version>
+    </dependency>
+</dependencies>
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.util.List;
+
+public class NestedFramesExample {
+    public static void main(String[] args) {
+        // Set the path to your ChromeDriver
+        System.setProperty("webdriver.chrome.driver", "path_to_your_chromedriver"); // e.g., "C:/path_to_chromedriver/chromedriver.exe"
+
+        // Create a new instance of the Chrome driver
+        WebDriver driver = new ChromeDriver();
+
+        try {
+            // 2. Navigate to the URL
+            driver.get("https://the-internet.herokuapp.com/nested_frames");
+
+            // Switch to the top frame
+            driver.switchTo().frame("frame-top");
+
+            // 4. Verify that there are 3 frames on the page
+            List<WebElement> topFrames = driver.findElements(By.tagName("frame"));
+            if (topFrames.size() == 3) {
+                System.out.println("Top frame has 3 frames.");
+            } else {
+                System.out.println("Top frame does not have 3 frames.");
+            }
+
+            // 5. Switch to the left frame
+            driver.switchTo().frame("frame-left");
+
+            // 6. Verify that the left frame has the text "LEFT"
+            String leftFrameText = driver.findElement(By.tagName("body")).getText();
+            if (leftFrameText.equals("LEFT")) {
+                System.out.println("Left frame has text: LEFT");
+            } else {
+                System.out.println("Left frame does not have the expected text.");
+            }
+
+            // 7. Switch back to the top frame
+            driver.switchTo().parentFrame();
+
+            // 8. Switch to the middle frame
+            driver.switchTo().frame("frame-middle");
+
+            // 9. Verify that the middle frame has the text "MIDDLE"
+            String middleFrameText = driver.findElement(By.id("content")).getText();
+            if (middleFrameText.equals("MIDDLE")) {
+                System.out.println("Middle frame has text: MIDDLE");
+            } else {
+                System.out.println("Middle frame does not have the expected text.");
+            }
+
+            // 10. Switch back to the top frame
+            driver.switchTo().parentFrame();
+
+            // 11. Switch to the right frame
+            driver.switchTo().frame("frame-right");
+
+            // 12. Verify that the right frame has the text "RIGHT"
+            String rightFrameText = driver.findElement(By.tagName("body")).getText();
+            if (rightFrameText.equals("RIGHT")) {
+                System.out.println("Right frame has text: RIGHT");
+            } else {
+                System.out.println("Right frame does not have the expected text.");
+            }
+
+            // 13. Switch back to the top frame
+            driver.switchTo().parentFrame();
+
+            // 14. Switch to the bottom frame
+            driver.switchTo().defaultContent();
+            driver.switchTo().frame("frame-bottom");
+
+            // 15. Verify that the bottom frame has the text "BOTTOM"
+            String bottomFrameText = driver.findElement(By.tagName("body")).getText();
+            if (bottomFrameText.equals("BOTTOM")) {
+                System.out.println("Bottom frame has text: BOTTOM");
+            } else {
+                System.out.println("Bottom frame does not have the expected text.");
+            }
+
+            // 16. Switch back to the top frame
+            driver.switchTo().defaultContent();
+
+            // 17. Verify that the page title is "Frames"
+            String pageTitle = driver.getTitle();
+            if (pageTitle.equals("Frames")) {
+                System.out.println("Page title is: Frames");
+            } else {
+                System.out.println("Page title is not as expected.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 18. Close the browser instance
+            driver.quit();
+        }
+    }
+}
+
+Explanation of the Steps
+Set up ChromeDriver: The path to your ChromeDriver executable is set using System.setProperty.
+Create WebDriver Instance: A new instance of ChromeDriver is created.
+Navigate to URL: The driver navigates to the provided URL.
+Switch to Top Frame: Switch to the frame with the name frame-top.
+Verify 3 Frames: Check that there are 3 frames inside the top frame by counting the frames found with By.tagName("frame").
+Switch to Left Frame: Switch to the left frame within the top frame.
+Verify Left Frame Text: Verify the text inside the left frame.
+Switch Back to Top Frame: Switch back to the parent frame (top frame).
+Switch to Middle Frame: Switch to the middle frame within the top frame.
+Verify Middle Frame Text: Verify the text inside the middle frame.
+Switch Back to Top Frame: Switch back to the parent frame (top frame).
+Switch to Right Frame: Switch to the right frame within the top frame.
+Verify Right Frame Text: Verify the text inside the right frame.
+Switch Back to Top Frame: Switch back to the parent frame (top frame).
+Switch to Bottom Frame: Switch to the bottom frame.
+Verify Bottom Frame Text: Verify the text inside the bottom frame.
+Switch Back to Top Frame: Switch back to the top-level frame.
+Verify Page Title: Verify that the page title is "Frames".
+Close Browser: Close the browser instance.
